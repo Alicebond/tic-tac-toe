@@ -1,49 +1,64 @@
 "use strict";
 
 const gameBoard = (function () {
-  const gameBoard = [
-    ["o", "x", "o"],
-    ["x", "x", "o"],
-    ["o", "o", "x"],
-  ];
-  const showBoard = function () {
-    let board = document.getElementById("gameBoard");
-
-    for (let i = 0; i < board.children.length; i++) {
-      for (let j = 0; j < board.children[i].children.length; j++) {
-        board.children[i].children[j].textContent = gameBoard[i][j];
-      }
+  const gameBoard = ['', '', '', '', '', '', '', '', ''];
+  const getInput = function (blockNum, type) {
+    if (type === 'user') {
+      console.log(blockNum);
+      gameBoard[blockNum] = 'X'
+      showBoard(blockNum);
+    } else if (type === 'computer') {
+      gameBoard[blockNum] = 'O'
+      showBoard(blockNum);
     }
   };
-  return { showBoard };
+  const showBoard = function (blockNum) {
+    const block = document.getElementById(`${blockNum}`)
+    block.textContent = gameBoard[blockNum];
+  };
+  return {
+    getInput,
+  };
 })();
 
-// gameBoard.showBoard();
-
-const player = (function () {
-  const board = document.getElementById("gameBoard");
-
-  board.addEventListener("click", function (e) {
-    if (!e.target.textContent) {
-      e.target.textContent = "X";
-      computer();
-    }
-  });
-
-  function computer() {
+const player = (playerType) => {
+  let blockId = 0;
+  let getBlockId = () => blockId;
+  let userInput = function () {
+    const board = document.getElementById("gameBoard");
+    board.addEventListener("click", function (e) {
+      if (!e.target.textContent) {
+        blockId = +e.target.id;
+        gameBoard.getInput(blockId, playerType)
+      }
+    });
+  };
+  let computerInput = () => {
     const block = document.querySelectorAll(".block");
-
     const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     for (let i = 0; i < block.length; i++) {
       if (block[i].textContent) {
         arr.splice(arr.indexOf(i), 1);
       }
     }
-
     if (arr.length) {
-      let index = arr[Math.floor(Math.random() * (arr.length - 1))];
-      block[index].textContent = "O";
-      console.log(arr, index);
+      blockId = arr[Math.floor(Math.random() * (arr.length - 1))];
+      gameBoard.getInput(blockId, playerType)
     }
   }
-})();
+  if (playerType === 'user') {
+    return {
+      userInput,
+      getBlockId,
+    };
+  } else if (playerType === 'computer') {
+    return {
+      computerInput,
+      getBlockId,
+    };
+  }
+};
+
+const user = player('user');
+const computer = player('computer');
+user.userInput();
