@@ -1,20 +1,20 @@
 "use strict";
 
 const gameBoard = (function () {
-  const gameBoard = ['', '', '', '', '', '', '', '', ''];
+  const board = ['', '', '', '', '', '', '', '', ''];
   const getInput = function (blockNum, type) {
     if (type === 'user') {
-      console.log(blockNum);
-      gameBoard[blockNum] = 'X'
-      showBoard(blockNum);
+      board[blockNum] = 'X'
+      showBoard(blockNum, type);
     } else if (type === 'computer') {
-      gameBoard[blockNum] = 'O'
-      showBoard(blockNum);
+      board[blockNum] = 'O'
+      showBoard(blockNum, type);
     }
   };
-  const showBoard = function (blockNum) {
+  const showBoard = function (blockNum, type) {
     const block = document.getElementById(`${blockNum}`)
-    block.textContent = gameBoard[blockNum];
+    block.textContent = board[blockNum];
+
   };
   return {
     getInput,
@@ -22,18 +22,19 @@ const gameBoard = (function () {
 })();
 
 const player = (playerType) => {
-  let blockId = 0;
-  let getBlockId = () => blockId;
-  let userInput = function () {
+  let blockId;
+  const userInput = function () {
     const board = document.getElementById("gameBoard");
     board.addEventListener("click", function (e) {
       if (!e.target.textContent) {
         blockId = +e.target.id;
         gameBoard.getInput(blockId, playerType)
+        computer.computerInput()
       }
     });
   };
-  let computerInput = () => {
+  const getBlockId = () => blockId;
+  const computerInput = () => {
     const block = document.querySelectorAll(".block");
     const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     for (let i = 0; i < block.length; i++) {
@@ -58,7 +59,9 @@ const player = (playerType) => {
     };
   }
 };
-
-const user = player('user');
 const computer = player('computer');
+const user = player('user');
 user.userInput();
+// computer.computerInput();
+
+const flowController = (function () {})();
