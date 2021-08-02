@@ -14,7 +14,6 @@ const gameBoard = (function () {
   const showBoard = function (blockNum) {
     const block = document.getElementById(`${blockNum}`)
     block.textContent = board[blockNum];
-    displayController.checkGameOver(gameBoard.getBoard());
   };
   const getBoard = () => board;
   return {
@@ -32,12 +31,15 @@ const player = (playerType) => {
       if (!e.target.textContent && !state) {
         blockId = +e.target.id;
         gameBoard.getInput(blockId, playerType)
+        displayController.checkGameOver(gameBoard.getBoard());
         computer.computerInput();
       }
     });
   };
   const getBlockId = () => blockId;
   const computerInput = () => {
+    const state = document.getElementById("result").textContent;
+    if (state) return;
     const block = document.querySelectorAll(".block");
     const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     for (let i = 0; i < block.length; i++) {
@@ -96,9 +98,3 @@ const displayController = (function () {
 })();
 
 user.userInput()
-
-// const gameController = (function () {
-//   const runGame = (state) => {
-//     if (state) ;
-//   }
-// })()
