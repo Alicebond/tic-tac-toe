@@ -62,3 +62,9 @@ body,
 .third-row {
   text-align: center;
 }
+
+.result {
+  text-align: center;
+  font-size: 2rem;
+  /* padding-top: 5px; */
+}
