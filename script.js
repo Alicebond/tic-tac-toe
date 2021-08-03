@@ -1,24 +1,32 @@
 "use strict";
 
 const gameBoard = (function () {
-  const board = ['', '', '', '', '', '', '', '', ''];
+  let board = ['', '', '', '', '', '', '', '', ''];
   const getInput = function (blockNum, type) {
     if (type === 'user') {
       board[blockNum] = 'X'
-      showBoard(blockNum, type);
+      showBoard(blockNum);
     } else if (type === 'computer') {
       board[blockNum] = 'O'
-      showBoard(blockNum, type);
+      showBoard(blockNum);
     }
   };
   const showBoard = function (blockNum) {
     const block = document.getElementById(`${blockNum}`)
     block.textContent = board[blockNum];
+    displayController.checkGameOver(gameBoard.getBoard());
   };
   const getBoard = () => board;
+  const resetBoard = function () {
+    for (let i = 0; i < 9; i++) {
+      board[i] = "";
+      document.getElementById(`${i}`).textContent = "";
+    }
+  };
   return {
     getInput,
     getBoard,
+    resetBoard,
   };
 })();
 
@@ -31,7 +39,6 @@ const player = (playerType) => {
       if (!e.target.textContent && !state) {
         blockId = +e.target.id;
         gameBoard.getInput(blockId, playerType)
-        displayController.checkGameOver(gameBoard.getBoard());
         computer.computerInput();
       }
     });
@@ -65,36 +72,67 @@ const player = (playerType) => {
   }
 };
 
-const computer = player('computer');
-const user = player('user');
-
 const displayController = (function () {
   const result = document.getElementById('result')
   const checkGameOver = function (board) {
-    if (board[0] === board[1] && board[1] === board[2] && board[0] === board[2]) showResult(board[0]);
-    else if (board[3] === board[4] && board[4] === board[5] && board[3] === board[5]) showResult(board[3]);
-    else if (board[6] === board[7] && board[7] === board[8] && board[6] === board[8]) showResult(board[6]);
-    else if (board[0] === board[3] && board[3] === board[6] && board[0] === board[6]) showResult(board[0]);
-    else if (board[1] === board[4] && board[4] === board[7] && board[1] === board[7]) showResult(board[1]);
-    else if (board[2] === board[5] && board[5] === board[8] && board[2] === board[8]) showResult(board[2]);
-    else if (board[0] === board[4] && board[4] === board[8] && board[0] === board[8]) showResult(board[0]);
-    else if (board[2] === board[4] && board[4] === board[6] && board[2] === board[6]) showResult(board[2]);
-    else if (!board.includes('')) showResult('draw');
-    else return;
+    if (board[0] === board[1] && board[1] === board[2] && board[0] === board[2]) {
+      showResult(board[0], ['0', '1', '2'])
+    } else if (board[3] === board[4] && board[4] === board[5] && board[3] === board[5]) {
+      showResult(board[3], ['3', '4', '5']);
+    } else if (board[6] === board[7] && board[7] === board[8] && board[6] === board[8]) {
+      showResult(board[6], ['6', '7', '8']);
+    } else if (board[0] === board[3] && board[3] === board[6] && board[0] === board[6]) {
+      showResult(board[0], ['0', '3', '6']);
+    } else if (board[1] === board[4] && board[4] === board[7] && board[1] === board[7]) {
+      showResult(board[1], ['1', '4', '7']);
+    } else if (board[2] === board[5] && board[5] === board[8] && board[2] === board[8]) {
+      showResult(board[2], ['2', '5', '8']);
+    } else if (board[0] === board[4] && board[4] === board[8] && board[0] === board[8]) {
+      showResult(board[0], ['0', '4', '8']);
+    } else if (board[2] === board[4] && board[4] === board[6] && board[2] === board[6]) {
+      showResult(board[2], ['2', '4', '6']);
+    } else if (!board.includes('')) {
+      showResult('draw');
+    } else return;
   };
-  const showResult = function (value) {
+  const showResult = function (value, blockId) {
     if (value === "X") {
+      for (let i of blockId) document.getElementById(i).style.color = 'green';
       result.textContent = "Congrats! You Win 🎉";
+      result.style.color = "green";
     } else if (value === "O") {
+      for (let i of blockId) document.getElementById(i).style.color = 'red';
       result.textContent = "Oops! You Lose 💥";
+      result.style.color = "red";
     } else if (value === "draw") {
       result.textContent = "Draw";
     }
   }
-
+  const reset = function () {
+    for (let i = 0; i < 9; i++)
+      document.getElementById(`${i}`).style.color = "black";
+    result.textContent = "";
+  }
   return {
     checkGameOver,
+    reset,
   }
 })();
 
+const restart = (function () {
+  const reset = function () {
+    const resetBtn = document.querySelector(".restart");
+    resetBtn.addEventListener("click", function () {
+      gameBoard.resetBoard();
+      displayController.reset();
+    })
+  };
+  return {
+    reset,
+  }
+})()
+
+const computer = player('computer');
+const user = player('user');
 user.userInput()
+restart.reset();
