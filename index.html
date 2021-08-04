@@ -9,7 +9,9 @@
   </head>
   <body>
     <div class="container" id="container">
-      <h3>Tic Tac Toe</h3>
+      <div class="title-row">
+        <h3>Tic Tac Toe</h3>
+      </div>
       <div class="game-board" id="gameBoard">
         <div class="first-row" id="firstRow">
           <div class="block block0" id="0" data-num="0"></div>
@@ -27,9 +29,13 @@
           <div class="block block8" id="8" data-num="8"></div>
         </div>
       </div>
-      <p class="result" id="result"></p>
+      <div class="result-row">
+        <p class="result" id="result"></p>
+      </div>
+      <div class="button-row">
+        <button type="reset" class="btn restart">Restart</button>
+      </div>
     </div>
-    <button type="reset" class="btn restart">Restart</button>
     <script src="script.js"></script>
   </body>
 </html>
