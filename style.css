@@ -80,3 +80,7 @@ body,
   border: none;
   cursor: pointer;
 }
+
+.btn:hover {
+  background-color: rgb(85, 177, 161);
+}
