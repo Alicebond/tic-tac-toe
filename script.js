@@ -12,9 +12,9 @@ const gameBoard = (function () {
     }
   };
   const showBoard = function (blockNum) {
-    displayController.checkGameOver(gameBoard.getBoard());
     const block = document.getElementById(`${blockNum}`)
     block.textContent = board[blockNum];
+    displayController.checkGameOver(gameBoard.getBoard());
   };
   const getBoard = () => board;
   const resetBoard = function () {
@@ -58,64 +58,7 @@ const player = (playerType) => {
       blockId = arr[Math.floor(Math.random() * (arr.length))];
       gameBoard.getInput(blockId, playerType)
     }
-    // minimax(emptySpot);
   }
-  /*
-  const minimax = (emptySpot, player) => {
-    const huPlayer = "X",
-      aiPlayer = "O";
-    const result = document.getElementById('result');
-    if (result.textContent.includes('win')) {
-      return {
-        score: -10
-      }
-    } else if (result.textContent.includes('lose')) {
-      return {
-        score: 10
-      }
-    } else if (result.textContent.includes('draw')) {
-      return {
-        score: 0
-      };
-    }
-
-    const moves = [];
-    for (let i = 0; i < emptySpot.length; i++) {
-      const newBoard = gameBoard.getBoard();
-      const move = {};
-      move.index = newBoard[emptySpot[i]];
-
-      if (player === aiPlayer) {
-        let result = minmax(emptySpot, huPlayer);
-        move.score = result.score;
-      } else {
-        let result = minmax(emptySpot, asPlayer);
-        move.score = result.score;
-      }
-    }
-    let bestMove;
-    if (player === aiPlayer) {
-      let bestScore = -10000;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score > bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }
-      }
-    } else {
-      let bestScore = 10000;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score < bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }
-      }
-    }
-
-    return moves[bestMove];
-
-  };
-  */
   if (playerType === 'user') {
     return {
       userInput,
