@@ -75,31 +75,23 @@ const player = (playerType) => {
 const displayController = (function () {
   const result = document.getElementById('result')
   const checkGameOver = function (board) {
-    if (!board.includes('')) showResult('draw', null);
     if (board[0] === board[1] && board[1] === board[2] && board[0] === board[2]) {
       showResult(board[0], ['0', '1', '2'])
-    }
-    if (board[3] === board[4] && board[4] === board[5] && board[3] === board[5]) {
+    } else if (board[3] === board[4] && board[4] === board[5] && board[3] === board[5]) {
       showResult(board[3], ['3', '4', '5']);
-    }
-    if (board[6] === board[7] && board[7] === board[8] && board[6] === board[8]) {
+    } else if (board[6] === board[7] && board[7] === board[8] && board[6] === board[8]) {
       showResult(board[6], ['6', '7', '8']);
-    }
-    if (board[0] === board[3] && board[3] === board[6] && board[0] === board[6]) {
+    } else if (board[0] === board[3] && board[3] === board[6] && board[0] === board[6]) {
       showResult(board[0], ['0', '3', '6']);
-    }
-    if (board[1] === board[4] && board[4] === board[7] && board[1] === board[7]) {
+    } else if (board[1] === board[4] && board[4] === board[7] && board[1] === board[7]) {
       showResult(board[1], ['1', '4', '7']);
-    }
-    if (board[2] === board[5] && board[5] === board[8] && board[2] === board[8]) {
+    } else if (board[2] === board[5] && board[5] === board[8] && board[2] === board[8]) {
       showResult(board[2], ['2', '5', '8']);
-    }
-    if (board[0] === board[4] && board[4] === board[8] && board[0] === board[8]) {
+    } else if (board[0] === board[4] && board[4] === board[8] && board[0] === board[8]) {
       showResult(board[0], ['0', '4', '8']);
-    }
-    if (board[2] === board[4] && board[4] === board[6] && board[2] === board[6]) {
+    } else if (board[2] === board[4] && board[4] === board[6] && board[2] === board[6]) {
       showResult(board[2], ['2', '4', '6']);
-    }
+    } else if (!board.includes('')) showResult('draw', null);
   };
   const showResult = function (value, blockId) {
     if (value === "X") {
@@ -107,13 +99,11 @@ const displayController = (function () {
       result.textContent = "Congrats! You Win 🎉";
       result.style.color = "green";
       console.log("Congrats! You Win 🎉");
-    }
-    if (value === "O") {
+    } else if (value === "O") {
       for (let i of blockId) document.getElementById(i).style.color = 'red';
       result.textContent = "Oops! You Lose 💥";
       result.style.color = "red";
-    }
-    if (value === "draw") {
+    } else if (value === "draw") {
       result.textContent = "Draw";
       console.log("Draw");
     }
