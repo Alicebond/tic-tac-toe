@@ -114,14 +114,12 @@ const displayController = (function () {
       for (let i of blockId) document.getElementById(i).style.color = 'green';
       result.textContent = "Congrats! You Win 🎉";
       result.style.color = "green";
-      console.log("Congrats! You Win 🎉");
     } else if (value === "O") {
       for (let i of blockId) document.getElementById(i).style.color = 'red';
       result.textContent = "Oops! You Lose 💥";
       result.style.color = "red";
     } else if (value === "draw") {
       result.textContent = "Draw";
-      console.log("Draw");
     }
   }
   const reset = function () {
